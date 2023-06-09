@@ -45,6 +45,6 @@ class SendMessage(APIView):
 class SetAttributes(APIView):
     def post(self, request, format=None):
         Message.myPort = request.data['my_port']
-        Message.myIP = request.data['my_ip']
+        Message.destPort = request.data['dest_port']
         Message.destIP = request.data['dest_ip']
         return Response(serializer.data, status=status.HTTP_200_OK)
