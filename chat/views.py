@@ -47,4 +47,4 @@ class SetAttributes(APIView):
         Message.myPort = request.data['my_port']
         Message.destPort = request.data['dest_port']
         Message.destIP = request.data['dest_ip']
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response("", status=status.HTTP_200_OK)
