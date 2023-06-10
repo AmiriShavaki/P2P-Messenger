@@ -12,19 +12,14 @@ def getMyIP():
         tmp_socket.close()
     return myIP
 
-def dirty_code(myIP, myPort):
-    ret = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    ret.bind((myIP, myPort))
-    return ret
-
 class Message(models.Model):
 
     # Default Values of the connection (changable at runtime)
-    myPort = 4000 
-    destPort = 4000 
+    myPort = 6758
+    destPort = 9769
     myIP = getMyIP()
     destIP = '127.0.0.1'
-    socket = dirty_code(myIP, myPort)
+    socket = None
 
     sent_by_me = models.BooleanField(default=False)
     text = models.CharField(max_length=1200)
