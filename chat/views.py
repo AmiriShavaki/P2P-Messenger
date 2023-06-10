@@ -44,6 +44,8 @@ class SendMessage(APIView):
 
 class SetAttributes(APIView):
     def post(self, request, format=None):
+        Message.objects.all().delete() # Delete previous message history from DB
+
         Message.myPort = request.data['my_port']
         Message.destPort = request.data['dest_port']
         Message.destIP = request.data['dest_ip']
