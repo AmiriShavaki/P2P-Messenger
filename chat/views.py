@@ -5,7 +5,6 @@ from rest_framework.response import Response
 import socket
 
 def send2sock(text):
-    print((Message.myIP, Message.myPort))
     Message.socket.sendto(text.encode('utf-8'), (Message.destIP, Message.destPort))
 
 class MessageSerializer(serializers.ModelSerializer):
