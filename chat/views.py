@@ -27,7 +27,7 @@ def decrypt_message(ciphertext, key):
     return plaintext.decode()
 
 def send2sock(text):
-    Message.socket.sendto(text.encode('utf-8'), (Message.destIP, Message.destPort))
+    Message.socket.sendto(text, (Message.destIP, Message.destPort))
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
