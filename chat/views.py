@@ -47,5 +47,7 @@ class SetAttributes(APIView):
         Message.myPort = request.data['my_port']
         Message.destPort = request.data['dest_port']
         Message.destIP = request.data['dest_ip']
+        Message.socket.close()
+        Message.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         Message.socket.bind((Message.myIP, Message.myPort))
         return Response("", status=status.HTTP_200_OK)
