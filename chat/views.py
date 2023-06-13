@@ -6,8 +6,8 @@ import socket
 import os
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
-# TODO: Read shared secret key from a file
-shared_secret_key = b'\x13\x02\x82\xa3\xcd\xb8\x946\xa6\x90vS\xf3\x1cI\x84\xc0\xa5\x14\xab\xcfc\r\x89\xbd\xe3\x17\x97\x03\xe0\xe4\x9e'
+
+shared_secret_key_path = 'C:/Users/admin/Documents/semseter8/Security of Computer Systems/Projects/Final_Project/p2p_messenger/secret_key.txt'
 
 def encrypt_message(message, key):
     iv = os.urandom(16)
@@ -44,7 +44,7 @@ class GetMessages(generics.ListCreateAPIView):
         except socket.timeout:
             data = None
         if data:
-            data = decrypt_message(data, shared_secret_key)
+            data = decrypt_message(data, Message.shared_secret_key)
             serializer = MessageSerializer(data={'text':data})
             if serializer.is_valid():
                 serializer.save()
@@ -57,7 +57,7 @@ class SendMessage(APIView):
         data['sent_by_me'] = True
         serializer = MessageSerializer(data=data)
         if serializer.is_valid():
-            encrpted_msg = encrypt_message(data['text'], shared_secret_key)
+            encrpted_msg = encrypt_message(data['text'], Message.shared_secret_key)
             send2sock(encrpted_msg) # Sending a byte str
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -75,4 +75,6 @@ class SetAttributes(APIView):
             Message.socket.close()
         Message.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         Message.socket.bind((Message.myIP, Message.myPort))
+        with open(shared_secret_key_path, "rb") as binary_file:
+            Message.shared_secret_key = binary_file.read()
         return Response("", status=status.HTTP_200_OK)
