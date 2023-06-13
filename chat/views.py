@@ -7,8 +7,6 @@ import os
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-shared_secret_key_path = 'C:/Users/admin/Documents/semseter8/Security of Computer Systems/Projects/Final_Project/p2p_messenger/secret_key.txt'
-
 def encrypt_message(message, key):
     iv = os.urandom(16)
     cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
@@ -75,6 +73,6 @@ class SetAttributes(APIView):
             Message.socket.close()
         Message.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         Message.socket.bind((Message.myIP, Message.myPort))
-        with open(shared_secret_key_path, "rb") as binary_file:
+        with open(request.data["key_path"], "rb") as binary_file:
             Message.shared_secret_key = binary_file.read()
         return Response("", status=status.HTTP_200_OK)
