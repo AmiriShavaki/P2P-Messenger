@@ -27,5 +27,5 @@ POST /send/
 #### Get Messages
 
 ```http
-GET /accounts/messages/
+GET /messages/
 ```
