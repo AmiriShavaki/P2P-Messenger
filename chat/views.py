@@ -30,7 +30,7 @@ def send2sock(text):
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['text', 'sent_by_me']
+        fields = ['text', 'type', 'title', 'position']
 
 class GetMessages(generics.ListCreateAPIView):
     serializer_class = MessageSerializer
@@ -52,7 +52,9 @@ class GetMessages(generics.ListCreateAPIView):
 class SendMessage(APIView): 
     def post(self, request, format=None):
         data = request.data
-        data['sent_by_me'] = True
+        data['position'] = "right"
+        data['title'] = "Me"
+        data['type'] = "text"
         serializer = MessageSerializer(data=data)
         if serializer.is_valid():
             encrpted_msg = encrypt_message(data['text'], Message.shared_secret_key)

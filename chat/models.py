@@ -21,7 +21,9 @@ class Message(models.Model):
     destIP = '127.0.0.1'
     socket = None
 
-    sent_by_me = models.BooleanField(default=False)
+    position = models.CharField(max_length=10, default="left")
+    type = models.CharField(max_length=5, default="text")
+    title = models.CharField(max_length=5, default="You")
     text = models.CharField(max_length=1200)
     timestamp = models.DateTimeField(auto_now_add=True)
     def __str__(self):
